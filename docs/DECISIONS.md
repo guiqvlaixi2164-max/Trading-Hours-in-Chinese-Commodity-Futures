@@ -198,3 +198,112 @@ bottom. Entries are never deleted; a reversed decision gets a new entry that poi
     - Boolean and NULL literals are upper case.
     - Two lines carry `noqa`: `PRS` on the variable window frames in `070_outliers.sql`, which
       SQLFluff's DuckDB grammar cannot parse, and `RF04` on the `close` and `position` columns.
+
+## Phase 4, 2026-09-11
+
+46. **The core layer is built from `core.day_blocks`**: one row per contract, trading day and
+    block present, with first open, last close, bar span, volume and within-block RV. Segments,
+    daily facts, gaps and session history all read it.
+    - Clock times inside a trading day are slot keys: minutes after the night open, from the
+      macro `slot_key()`, which reads 21:00 from `seed.session_blocks`.
+    - The core layer rebuilds in about 8 s; the full pipeline takes about 2.5 min.
+47. **Exchange calendars and closures.**
+    - Each exchange group's calendar is the union of its contracts' day-session dates, taken
+      before cleaning removes any day. INE is grouped with SHFE.
+    - The all-exchange calendar has 130 closures of 4 or more calendar days, the longest 13
+      days. The gaps of up to 18 days that the plan saw in copper (§2.4) are gaps in the
+      contract's own data, now in `core.data_gaps` (1,320 contract-days, 918 of them removed by
+      the volume floor).
+    - One group closure differs from the all-exchange calendar: SHFE reopened on 2003-05-12 after
+      Labour Day, DCE on 2003-05-09. It is listed in `seeds/closure_exceptions.csv`.
+48. **Holiday labels come from `seeds/holiday_rules.csv`**: a window for the first closed day,
+    a minimum length, and one dated special case (2015-09-03, Victory Day).
+    - Every closure that includes a weekday gets a label. That includes four New Year's Days and
+      the 2023 Qingming holiday (Wednesday 5 April), which are only 2 calendar days.
+    - Closure types are `weekend`, `holiday`, and `suspension` for a weekday closure that no rule
+      matches. None occurs.
+49. **Session change points** (`core.session_changes`, `core.contract_sessions`).
+    - Adoption is the first day with at least 5 night bars. A contract counts as listed with a
+      night session when at most 1 trading day comes before adoption, because the listing day has
+      no evening before it.
+    - Suspension is 10 or more trading days in a row without night bars, after adoption.
+    - A change in the night end counts when the new end holds for 20 night days in a row. Runs
+      are counted over night days only, so the 2020 suspension does not break them.
+    - Result: 29 adoptions, 24 suspensions (all starting 2020-02-03 or 2020-02-04), and 15
+      shortenings:
+      - 2015-05-11 at DCE (soybean meal, soybean oil, iron ore, coke, coking coal): 02:30 to
+        23:30;
+      - 2016-05-04 at SHFE (rebar, bitumen): 01:00 to 23:00;
+      - 2019-04-01 at DCE (the same five, plus soybean No.2): 23:30 to 23:00;
+      - 2019-12-12 at CZCE (sugar, methanol): 23:30 to 23:00.
+    - No extensions. `tests/sql/session_changes_known.sql` checks this full list.
+50. **When a night block is expected.** A night block is expected when the contract is in its
+    night regime (from adoption, outside a suspension), the day does not follow a closure with a
+    closed weekday, and the exchange group held a night session that day.
+    - The last condition was added after the data showed night sessions cancelled across whole
+      exchange groups on ordinary days: 2015-09-28 (all groups), 2017-03-31 (DCE),
+      2017-04-19 (CZCE), 2023-12-01 (DCE, CZCE) and 2024-01-22 (all groups).
+    - A group's night session counts as cancelled when none of its contracts in the night regime
+      has a night block.
+    - 8 contract-days still lack an expected night block and stay incomplete: LSFO on
+      2021-01-08, and the seven SHFE/INE contracts that close at 23:00 on 2023-12-01, when SHFE's
+      late-closing contracts did trade.
+51. **Complete and valid days.** A day is complete when:
+    - its previous cleaned day is the exchange group's previous open day (no data gap);
+    - all three day blocks are present;
+    - it has a night block, if one is expected.
+
+    Result: 90,151 of 90,835 contract-days are complete. After excluding rollover and stale
+    days, 89,801 are valid return days (the definition in `HYPOTHESES.md` §2). Almost all
+    incomplete days follow a data gap (637) or are a contract's first day.
+52. **Segments.** `core.segments` holds the 8 segments per day in long form (726,680 rows),
+    keeping NULL segments for days with missing blocks.
+    - Without a night block, `pre_night_gap` and `night` are 0, as `HYPOTHESES.md` §2
+      specifies.
+    - On complete days the segments add up to `ret_cc` within 5.9e-16.
+53. **Gap types** (`core.gaps`, 325,474 non-trading intervals).
+    - Within a trading day: `intraday_break`.
+    - Across trading days: `data_gap` if the contract misses open days of its exchange.
+    - Otherwise the type of the exchange closure the gap covers. A gap covers a closure when it
+      starts before and ends after the closure's last closed day, so a Friday 15:00–21:00 gap is
+      `overnight`, and the Friday-night-to-Monday gap is `weekend`.
+    - Everything else is `overnight`.
+    - Counts: 181,664 intraday breaks, 124,167 overnight, 16,639 weekend, 2,367 holiday and
+      637 data gaps.
+54. **Dimensions.**
+    - `core.dim_date` takes US and UK summer time from ICU. A date counts as summer time when its
+      noon UTC offset is above the year's lowest offset, so no offsets are hard-coded.
+      `dim_date_dst.sql` checks this against the statutory rules, including the US rule change in
+      2007.
+    - `core.dim_slot` has the 216 five-minute slots from 21:00 to 14:55, with out-of-session
+      slots labelled `off_session`.
+    - The plan mentions bar-internal returns for Part A in `fct_day`. They are a per-bar
+      expression, ln(close / open), so Phase 6 computes them from `clean.bars` rather than
+      storing a daily total.
+55. **`core.fct_day` reconciles with `rv_panel`** (`r8_fct_day.sql`). On the 31 contracts that
+    are identical under both rule sets, `ret_cc` equals `ret_d` and `rv_total` equals `rv`, and
+    volume, open interest and flags match. The other three are covered in compatibility mode by
+    `r5`.
+56. **Plan §2 re-verified on the new tables:**
+
+    | Fact | Result |
+    |---|---|
+    | §2.1 adoption dates and pre-adoption days | Identical for all 18 treated contracts, MEG (61) and LPG (24). Contracts listed with a night session show adoption on their second trading day |
+    | §2.2 2020 switch-off | Identical: 24 contracts with night bars in the week of 2020-01-20, none from the week of 02-03 to the week of 04-27, 25 from the week of 05-04 |
+    | §2.3 shortenings | Confirmed, with exact dates (entry 49). CZCE sugar and methanol did close at 23:30 until 2019-12-12 |
+    | §2.4 night blocks after long gaps | 3.8% of 1,533 first days after a gap of 4+ calendar days carry a night block, against 97.1% on ordinary days (plan: 3.6% of 1,514, and 97.1%). The planning query's exact filter was not recorded; here it is contract-days after adoption with a gap of 4+ days to the contract's previous cleaned day |
+    | §2.5 gold US clock | Not recomputed here. It is a Part A statistic and is computed in Phase 6 under the pre-registered definitions |
+    | §2.6 dropped night bars | Re-verified in Phase 3 (entry 42) |
+    | §2.7 coverage | Identical: 4 contracts to 2005, 13 in 2012, 20 in 2015, 28 in 2019, 34 from 2023 |
+
+57. **Constants in SQL.** Tunable parameters come from `config.yaml` (new:
+    `session_history.*`, `bar_minutes`, `segment_sum_tol`). Unit and calendar constants appear
+    in SQL bodies: minutes per day, seconds per hour, noon, weekday numbers, and the dated cases
+    in tests.
+58. **Runner and lint.**
+    - A test whose query errors is now reported as a failure, and the remaining tests still run.
+    - SQLFluff ignores `RF04` for the natural column names `date`, `day`, `month`, `year`,
+      `year_month`, `quarter`, `label`, `close` and `position`.
+    - `IS DISTINCT FROM` in a select list is wrapped in parentheses so that SQLFluff can parse
+      it.
+    - Each new Phase 4 test was checked to fail on a planted error.

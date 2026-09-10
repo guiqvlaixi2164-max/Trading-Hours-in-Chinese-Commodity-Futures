@@ -1,0 +1,9 @@
+segment,segment_group,segment_order,description
+pre_night_gap,non_trading,1,ln(night first open / previous trading day's last close)
+night,night_trading,2,ln(night last close / night first open)
+pre_day_gap,non_trading,3,ln(09:00 first open / night last close) or / previous close without a night block
+morning_1,day_trading,4,ln(last close / first open) within 09:00-10:15
+break_1015,intraday_break,5,ln(morning_2 first open / morning_1 last close)
+morning_2,day_trading,6,ln(last close / first open) within 10:30-11:30
+lunch_gap,intraday_break,7,ln(afternoon first open / morning_2 last close)
+afternoon,day_trading,8,ln(last close / first open) within 13:30-15:00

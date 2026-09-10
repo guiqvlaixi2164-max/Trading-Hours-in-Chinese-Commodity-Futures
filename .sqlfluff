@@ -7,3 +7,7 @@ exclude_rules = AM04, ST06
 
 [sqlfluff:rules:capitalisation.literals]
 capitalisation_policy = upper
+
+# Natural column names for a date dimension and bar data, used unquoted by DuckDB and Power BI.
+[sqlfluff:rules:references.keywords]
+ignore_words = date, day, month, year, year_month, quarter, label, close, position

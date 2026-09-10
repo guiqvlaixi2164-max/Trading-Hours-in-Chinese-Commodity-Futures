@@ -93,3 +93,63 @@ FROM read_csv(
         'description': 'VARCHAR'
     }
 );
+
+-- Descriptive holiday labels for exchange closures (Phase 4). The first rule by priority whose
+-- year (blank = any), window for the first closed day (MM-DD, may wrap the year end) and minimum
+-- length (calendar days from the last open day to the next) all match.
+CREATE OR REPLACE TABLE seed.holiday_rules AS
+SELECT
+    priority,
+    year,
+    holiday,
+    first_closed_from,
+    first_closed_to,
+    min_calendar_days
+FROM read_csv(
+    'seeds/holiday_rules.csv',
+    header = TRUE,
+    columns = {
+        'priority': 'INTEGER',
+        'year': 'INTEGER',
+        'holiday': 'VARCHAR',
+        'first_closed_from': 'VARCHAR',
+        'first_closed_to': 'VARCHAR',
+        'min_calendar_days': 'INTEGER'
+    }
+);
+
+-- Exchange-group closures that are allowed to differ from the all-exchange calendar.
+CREATE OR REPLACE TABLE seed.closure_exceptions AS
+SELECT
+    exchange_group,
+    last_open_day,
+    next_open_day,
+    reason
+FROM read_csv(
+    'seeds/closure_exceptions.csv',
+    header = TRUE,
+    columns = {
+        'exchange_group': 'VARCHAR',
+        'last_open_day': 'DATE',
+        'next_open_day': 'DATE',
+        'reason': 'VARCHAR'
+    }
+);
+
+-- The eight return segments of a trading day (plan Phase 4, step 4).
+CREATE OR REPLACE TABLE seed.segments AS
+SELECT
+    segment,
+    segment_group,
+    segment_order,
+    description
+FROM read_csv(
+    'seeds/segments.csv',
+    header = TRUE,
+    columns = {
+        'segment': 'VARCHAR',
+        'segment_group': 'VARCHAR',
+        'segment_order': 'INTEGER',
+        'description': 'VARCHAR'
+    }
+);

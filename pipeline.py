@@ -151,7 +151,12 @@ def run_tests(con):
         log.warning("test: %s not found, skipping tests/reconcile/", REFERENCE.as_posix())
     failed = 0
     for path in tests:
-        con.execute(path.read_text(encoding="utf-8"))
+        try:
+            con.execute(path.read_text(encoding="utf-8"))
+        except duckdb.Error as e:
+            failed += 1
+            log.error("FAIL %s: query error\n%s", path.as_posix(), e)
+            continue
         columns = [d[0] for d in con.description]
         rows = con.fetchall()
         if rows:

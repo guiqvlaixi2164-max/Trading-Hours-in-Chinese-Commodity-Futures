@@ -1,0 +1,9 @@
+priority,year,holiday,first_closed_from,first_closed_to,min_calendar_days
+1,2015,Victory Day,09-03,09-03,4
+2,,Spring Festival,01-15,02-20,7
+3,,National Day,09-25,10-08,7
+4,,New Year,12-28,01-03,2
+5,,Qingming,03-30,04-07,2
+6,,Labour Day,04-26,05-03,4
+7,,Dragon Boat,05-25,06-26,4
+8,,Mid-Autumn,09-01,09-24,4

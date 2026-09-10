@@ -25,10 +25,16 @@ closure_study:
   prehol_days: 3
 atlas:
   first_year: 2014             # first full calendar year with broad night coverage
+session_history:               # core.session_changes (Phase 4)
+  suspension_min_days: 10      # trading days in a row without night bars, after adoption
+  night_end_min_days: 20       # a new night end must hold this many night days in a row
+  listed_with_night_max_pre_days: 1   # listing day itself cannot have a night block
+bar_minutes: 5
 annualisation_days: 252
 reconcile:                     # tests/reconcile/ against data/reference/ (Phase 3)
   ret_abs_tol: 1.0e-12
   rv_rel_tol: 1.0e-10
+  segment_sum_tol: 1.0e-12     # |sum of the 8 segments - ret_cc| on complete days
 # Tables written to outputs/tables/<name>.csv by `pipeline.py export` (tracked, aggregated only).
 # Not a DuckDB variable.
 csv_exports:
