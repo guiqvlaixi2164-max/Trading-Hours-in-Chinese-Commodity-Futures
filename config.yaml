@@ -1,0 +1,28 @@
+duckdb: {memory_limit: "3GB", threads: 4}
+cleaning:
+  daily_volume_percentile_floor: 0.01
+  min_bars_per_day: 20
+  mad_k: 10.0
+  mad_window_before: 30        # centred 60-row window, matching pandas center=True
+  mad_window_after: 29
+  mad_min_periods: 15
+  mad_floor_frac: 0.10
+  mad_to_sigma: 1.4826
+flags:
+  min_nonzero_returns: 10      # limit-day ("stale") flag
+  rollover_z: 4.0
+night_study:
+  min_night_bars_first_day: 5  # adoption = first day with at least this many night bars
+  min_pre_months: 12
+  min_post_months: 12
+  event_window: [-12, 12]
+  base_period: -1
+  bootstrap_reps: 999
+  permutation_reps: 999
+closure_study:
+  holiday_min_calendar_days: 4
+  baseline_window: [-60, -6]   # trading days, mirrored after the event
+  prehol_days: 3
+atlas:
+  first_year: 2014             # first full calendar year with broad night coverage
+annualisation_days: 252

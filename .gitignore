@@ -1,0 +1,13 @@
+data/*
+!data/raw/
+data/raw/*
+!data/raw/MANIFEST.sha256
+marts/
+logs/
+*.duckdb
+*.duckdb.wal
+*.pbix
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
+__pycache__/
+.ipynb_checkpoints/

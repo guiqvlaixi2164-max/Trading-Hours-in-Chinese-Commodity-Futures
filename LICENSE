@@ -1,0 +1,32 @@
+MIT License
+
+Copyright (c) 2026 The cn-futures-trading-hours authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+Data exclusion
+
+This licence covers the code, SQL, configuration, documentation and aggregated
+result tables in this repository only. It does not cover the market data the
+analysis runs on: the Wind five-minute futures bars, and any file derived from
+them at bar or daily grain (data/, marts/, the DuckDB warehouse and the Power BI
+data cache). That data is licensed from its vendor, is not distributed with this
+repository, and may not be redistributed. data/raw/MANIFEST.sha256 lists
+checksums only, so that a user with their own licensed copy can verify it.

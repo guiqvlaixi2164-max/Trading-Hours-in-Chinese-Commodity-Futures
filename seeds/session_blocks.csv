@@ -1,0 +1,5 @@
+block,clock_start,clock_end,last_stamp,block_order
+night,21:00,03:00,02:55,1
+morning_1,09:00,10:15,10:10,2
+morning_2,10:30,11:30,11:25,3
+afternoon,13:30,15:00,14:55,4

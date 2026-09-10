@@ -1,0 +1,35 @@
+slug,code,exchange,name_en,name_cn,sector,raw_file,linkage,linkage_reason
+gold,SHFE.AU,SHFE,Gold,沪金,precious_metals,SHFE.AU.csv,international,COMEX gold futures (CME) and the London OTC market
+silver,SHFE.AG,SHFE,Silver,沪银,precious_metals,SHFE.AG.csv,international,COMEX silver futures (CME) and the London OTC market
+aluminium,SHFE.AL,SHFE,Aluminium,沪铝,base_metals,SHFE.AL.csv,international,LME aluminium
+copper,SHFE.CU,SHFE,Copper,沪铜,base_metals,SHFE.CU.csv,international,LME copper and COMEX copper
+copper_intl,INE.BC,INE,International Copper,国际铜,base_metals,INE.BC.csv,international,LME copper; INE bonded contract open to overseas traders
+tin,SHFE.SN,SHFE,Tin,沪锡,base_metals,SHFE.SN.csv,international,LME tin
+zinc,SHFE.ZN,SHFE,Zinc,沪锌,base_metals,SHFE.ZN.csv,international,LME zinc
+iron_ore,DCE.I,DCE,Iron Ore,铁矿石,ferrous,DCE.I.csv,international,SGX 62% Fe iron ore futures and swaps
+rebar,SHFE.RB,SHFE,Rebar Steel,螺纹钢,ferrous,SHFE.RB.csv,domestic,Domestic construction steel; no overseas benchmark
+bitumen,SHFE.BU,SHFE,Bitumen,沥青,energy,SHFE.BU.csv,partial,No overseas bitumen futures; priced off crude oil
+coke,DCE.J,DCE,Coke,焦炭,energy,DCE.J.csv,domestic,Domestic production and use; no overseas benchmark
+coking_coal,DCE.JM,DCE,Coking Coal,焦煤,energy,DCE.JM.csv,partial,"Australian premium coking coal swaps (SGX, CME), thin"
+crude_oil,INE.SC,INE,Crude Oil,原油,energy,INE.SC.csv,international,"ICE Brent, NYMEX WTI and Dubai/Oman crude"
+fuel_oil,SHFE.FU,SHFE,Fuel Oil,燃料油,energy,SHFE.FU.csv,international,"Singapore high-sulphur fuel oil (Platts-assessed, ICE swaps)"
+lpg,DCE.PG,DCE,Liquefied Petroleum Gas,液化气,energy,DCE.PG.csv,partial,Saudi CP and Mont Belvieu propane; thin overseas futures
+lsfo,INE.LU,INE,Low-Sulphur Fuel Oil,LU燃油,energy,INE.LU.csv,international,"Singapore 0.5% marine fuel (Platts-assessed, ICE swaps)"
+meg,DCE.EG,DCE,Ethylene Glycol,乙二醇,chemicals,DCE.EG.csv,partial,"No liquid overseas futures; import parity, crude and naphtha linked"
+methanol,CZCE.MA,CZCE,Methanol,甲醇,chemicals,CZCE.MA.csv,partial,No liquid overseas futures; Middle East import parity and domestic coal
+polypropylene,DCE.PP,DCE,Polypropylene,聚丙烯,chemicals,DCE.PP.csv,partial,No overseas futures; propylene and crude linked
+psf,CZCE.PF,CZCE,Polyester Staple Fibre,短纤,chemicals,CZCE.PF.csv,partial,"No overseas futures; PTA and MEG chain, crude linked"
+pvc,DCE.V,DCE,PVC,PVC,chemicals,DCE.V.csv,domestic,Mostly coal-based (calcium carbide) domestic production
+rubber,SHFE.RU,SHFE,Natural Rubber,橡胶,chemicals,SHFE.RU.csv,international,SGX TSR 20 and OSE (JPX) RSS3 rubber
+rubber_br,SHFE.BR,SHFE,Butadiene Rubber,BR橡胶,chemicals,SHFE.BR.csv,partial,No overseas futures; butadiene and natural rubber linked
+rubber_nr,INE.NR,INE,TSR 20 Rubber,20号胶,chemicals,INE.NR.csv,international,SGX TSR 20 rubber
+urea,CZCE.UR,CZCE,Urea,尿素,chemicals,CZCE.UR.csv,domestic,Domestic fertiliser under export controls; no overseas benchmark
+apple,CZCE.AP,CZCE,Apple,苹果,agriculture,CZCE.AP.csv,domestic,Domestic fresh produce; no overseas benchmark
+corn_starch,DCE.CS,DCE,Corn Starch,淀粉,agriculture,DCE.CS.csv,domestic,Domestic corn under import quotas; CBOT corn only weakly linked
+egg,DCE.JD,DCE,Egg,鸡蛋,agriculture,DCE.JD.csv,domestic,Domestic fresh produce; no overseas benchmark
+jujube,CZCE.CJ,CZCE,Red Jujube,红枣,agriculture,CZCE.CJ.csv,domestic,Domestic produce; no overseas benchmark
+peanut,CZCE.PK,CZCE,Peanut,花生,agriculture,CZCE.PK.csv,domestic,Domestic crop; no overseas benchmark
+soybean_2,DCE.B,DCE,Soybean No.2,豆二,agriculture,DCE.B.csv,international,CBOT soybeans; contract deliverable on imported soybeans
+soybean_meal,DCE.M,DCE,Soybean Meal,豆粕,agriculture,DCE.M.csv,international,CBOT soybean meal and soybeans
+soybean_oil,DCE.Y,DCE,Soybean Oil,豆油,agriculture,DCE.Y.csv,international,CBOT soybean oil and soybeans
+sugar,CZCE.SR,CZCE,White Sugar,白糖,agriculture,CZCE.SR.csv,international,ICE raw sugar No. 11

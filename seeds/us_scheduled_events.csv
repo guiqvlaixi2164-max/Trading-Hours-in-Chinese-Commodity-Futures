@@ -1,0 +1,6 @@
+event,et_time,days_of_week,applies_to,description
+cme_metals_open,08:20,1|2|3|4|5,all,COMEX metals open (CME)
+us_macro_0830,08:30,1|2|3|4|5,all,"US macro releases (employment, CPI, GDP, jobless claims)"
+us_equity_open,09:30,1|2|3|4|5,all,US equity market open (NYSE)
+us_macro_1000,10:00,1|2|3|4|5,all,"Second-tier US releases (ISM, consumer confidence)"
+eia_petroleum,10:30,3,crude_oil|fuel_oil|lsfo,EIA Weekly Petroleum Status Report
