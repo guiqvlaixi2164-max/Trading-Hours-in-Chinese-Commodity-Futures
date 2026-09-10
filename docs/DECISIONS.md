@@ -104,3 +104,27 @@ bottom. Entries are never deleted; a reversed decision gets a new entry that poi
 29. **The Chinese-language literature search (CNKI, Baidu Scholar) could not be done from this
     machine's tools**; both sites refuse automated access. The English-language search is
     recorded in `METHODOLOGY.md` §1.
+30. **`HYPOTHESES.md` was committed (448155f) with the CNKI search still open**, with the
+    author's approval, together with all Phase 1 proposals (entries 20–28). This supersedes the
+    note in `METHODOLOGY.md` §2 that the search must come first.
+
+## Phase 2, 2026-09-10
+
+31. **Raw data profile.**
+    - 6,014,790 bars in 34 files with identical headers.
+    - No NULL or NaN fields, every stamp on the five-minute grid, no duplicate
+      `(slug, ts)`.
+    - 19 bars have a volume ending in .5 (sugar 2009–2011, a few copper, aluminium, soybean oil,
+      zinc and tin bars), so `volume` stays `DOUBLE`.
+    - `tests/sql/stg_no_nulls.sql` guards the clean profile against a changed raw file.
+32. **`stg.bars` is stored in `(slug, ts)` order.** It costs about a second at build time and
+    helps every later window function over `(slug, ts)`. Build time is about 4.5 s, and the
+    warehouse is 227 MB after staging.
+33. **Seed tables carry clock minutes as well as `TIME`.** `seed.session_blocks` has `start_min`,
+    `end_min` and `last_stamp_min`, and `seed.us_scheduled_events` has `et_min`, all comparable
+    with `stg.bars.clock_min`. `days_of_week` and `applies_to` become lists.
+34. **Two tests beyond the plan's three:** `seed_contracts.sql` (unique keys, known exchanges,
+    and the pre-registered linkage counts 17/8/9) and `stg_no_nulls.sql`. Each Phase 2 test was
+    checked to fail on a deliberately broken copy of the data.
+35. **SQLFluff is kept clean from Phase 2 on**, rather than only at release. Its column-order rule
+    (ST06) puts plain columns before computed ones, which is accepted.
