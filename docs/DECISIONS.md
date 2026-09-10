@@ -66,3 +66,41 @@ bottom. Entries are never deleted; a reversed decision gets a new entry that poi
 19. **`.gitattributes` forces LF line endings.** This machine has `core.autocrlf = true`, which
     would rewrite seeds and `outputs/tables/*.csv` with CRLF on checkout and break the Phase 11
     check that a fresh clone reproduces `outputs/tables/` byte-for-byte.
+
+## Phase 1, 2026-09-10
+
+20. **Cohorts are `(g, b)` groups, not adoption dates.** The plan's rule (the adoption month
+    counts only if adoption falls within its first 5 trading days) conflicts with a fixed base
+    month `g − 1`: for a late-month adopter, `g − 1` is the partly treated adoption month. The
+    base month `b` is therefore the last month entirely before adoption, and the adoption month is
+    dropped. On the trading calendar the 7 adoption dates give 6 `(g, b)` groups in 5 cohort
+    months (`HYPOTHESES.md` §5.2). "Leave one cohort out" therefore has 5 runs, not 7.
+21. **The pre-trend summary is `e = −12..−3`**, not `−12..−2`. `e = −2` is the base month of the
+    late-adopting groups and would add structural zeros.
+22. **February to April 2020 are dropped from the Part B panel.** Every night session was
+    suspended, so treatment was switched off. This removes event months 10 and 11 of the 2019
+    cohort.
+23. **Part C scales gap variance by daily close-to-close variance**, not by the ordinary overnight
+    gap. The overnight gap is 18 hours for day-only contracts but 6 to 10 hours for night
+    contracts, whose night session absorbs overseas news. The plan's baseline would therefore
+    steepen the international slope in H-C2 by construction. It is kept as a robustness row.
+24. **H-C2 uses holidays from 2010 onward**, when both linkage groups have at least two contracts.
+    All holidays is a robustness row.
+25. **H-A2 predicted pairs:** 21:20 and 22:30 and 23:00 in EST, and 22:00 in EDT.
+    - 21:30 is excluded because it is predicted in both regimes.
+    - The 08:20 and 08:30 ET events in EDT fall before the 21:00 open.
+    - Reference slots that are themselves predicted slots are dropped from the spike's reference
+      mean.
+    - The day-session placebo uses the pairs shifted back by 12 hours whose reference slots stay
+      inside one block (09:20 and 11:00).
+26. **Primary specification excludes rollover and limit (stale) days in all three parts.** The
+    plan's robustness rows are read as "also drop ±1 day around rollovers" and "include stale
+    days".
+27. **Equivalence margin for H-B1: ±0.10 in log variance.** Redistribution is supported only if
+    the 95 percent interval for `θ_post` lies inside it. Otherwise a non-significant result is
+    reported as inconclusive, not as support for H-B1.
+28. **Bitumen is a pre-specified exception to the 12-pre-month rule**, as in the plan; the
+    balanced-panel robustness row drops it.
+29. **The Chinese-language literature search (CNKI, Baidu Scholar) could not be done from this
+    machine's tools**; both sites refuse automated access. The English-language search is
+    recorded in `METHODOLOGY.md` §1.

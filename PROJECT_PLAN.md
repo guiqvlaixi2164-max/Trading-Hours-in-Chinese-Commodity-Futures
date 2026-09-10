@@ -1117,24 +1117,80 @@ the report alone.
 
 ## 11. References
 
+Checked against Crossref on 2026-09-10. Two-line summaries of each source are in
+`docs/METHODOLOGY.md` §1, grouped by topic; the studies of Chinese night trading are marked †.
+
 - Admati, A. R., and Pfleiderer, P. (1988). A theory of intraday patterns: Volume and price
-  variability. *Review of Financial Studies*, 1(1), 3–40.
+  variability. *Review of Financial Studies*, 1(1), 3–40. https://doi.org/10.1093/rfs/1.1.3
 - Andersen, T. G., and Bollerslev, T. (1997). Intraday periodicity and volatility persistence in
   financial markets. *Journal of Empirical Finance*, 4(2–3), 115–158.
+  https://doi.org/10.1016/S0927-5398(97)00004-2
+- Andersen, T. G., and Bollerslev, T. (1998). Deutsche mark–dollar volatility: Intraday activity
+  patterns, macroeconomic announcements, and longer run dependencies. *Journal of Finance*,
+  53(1), 219–265. https://doi.org/10.1111/0022-1082.85732
 - Andersen, T. G., Bollerslev, T., Diebold, F. X., and Vega, C. (2003). Micro effects of macro
   announcements: Real-time price discovery in foreign exchange. *American Economic Review*,
-  93(1), 38–62.
+  93(1), 38–62. https://doi.org/10.1257/000282803321455151
+- Barclay, M. J., and Hendershott, T. (2003). Price discovery and trading after hours. *Review of
+  Financial Studies*, 16(4), 1041–1073. https://doi.org/10.1093/rfs/hhg030
+- Barclay, M. J., Litzenberger, R. H., and Warner, J. B. (1990). Private information, trading
+  volume, and stock-return variances. *Review of Financial Studies*, 3(2), 233–253.
+  https://doi.org/10.1093/rfs/3.2.233
 - Barclay, M. J., and Warner, J. B. (1993). Stealth trading and volatility: Which trades move
   prices? *Journal of Financial Economics*, 34(3), 281–305.
+  https://doi.org/10.1016/0304-405X(93)90029-B
+- Cai, H., Ahmed, S., Jiang, Y., and Liu, X. (2020). The impact of US macroeconomic news
+  announcements on Chinese commodity futures. *Quantitative Finance*, 20(12), 1927–1966.
+  https://doi.org/10.1080/14697688.2020.1814006
 - Callaway, B., and Sant'Anna, P. H. C. (2021). Difference-in-differences with multiple time
   periods. *Journal of Econometrics*, 225(2), 200–230.
+  https://doi.org/10.1016/j.jeconom.2020.12.001
 - Cao, C., Ghysels, E., and Hatheway, F. (2000). Price discovery without trading: Evidence from
   the Nasdaq preopening. *Journal of Finance*, 55(3), 1339–1365.
+  https://doi.org/10.1111/0022-1082.00249
 - French, K. R., and Roll, R. (1986). Stock return variances: The arrival of information and the
   reaction of traders. *Journal of Financial Economics*, 17(1), 5–26.
+  https://doi.org/10.1016/0304-405X(86)90004-8
+- Fung, H.-G., Leung, W. K., and Xu, X. E. (2003). Information flows between the U.S. and China
+  commodity futures trading. *Review of Quantitative Finance and Accounting*, 21(3), 267–285.
+  https://doi.org/10.1023/A:1027384330827
+- † Fung, H.-G., Mai, L., and Zhao, L. (2016). The effect of nighttime trading of futures markets
+  on information flows: Evidence from China. *China Finance and Economic Review*, 4, article 7.
+  https://doi.org/10.1186/s40589-016-0032-0
 - Goodman-Bacon, A. (2021). Difference-in-differences with variation in treatment timing.
-  *Journal of Econometrics*, 225(2), 254–277.
+  *Journal of Econometrics*, 225(2), 254–277. https://doi.org/10.1016/j.jeconom.2021.03.014
+- Harju, K., and Hussain, S. M. (2011). Intraday seasonalities and macroeconomic news
+  announcements. *European Financial Management*, 17(2), 367–390.
+  https://doi.org/10.1111/j.1468-036X.2009.00512.x
+- † He, X., Li, Z., and Hu, Z. (2025). What the night tells the day: Forecasting realized
+  volatility in Chinese commodity markets. *Journal of Futures Markets*, 45(12), 2332–2354.
+  https://doi.org/10.1002/fut.70042
+- Hong, H., and Wang, J. (2000). Trading and returns under periodic market closures. *Journal of
+  Finance*, 55(1), 297–354. https://doi.org/10.1111/0022-1082.00207
+- Ito, T., Lyons, R. K., and Melvin, M. T. (1998). Is there private information in the FX market?
+  The Tokyo experiment. *Journal of Finance*, 53(3), 1111–1130.
+  https://doi.org/10.1111/0022-1082.00045
+- † Jiang, Y., Kellard, N., and Liu, X. (2020). Night trading and market quality: Evidence from
+  Chinese and US precious metal futures markets. *Journal of Futures Markets*, 40(10),
+  1486–1507. https://doi.org/10.1002/fut.22147
+- † Klein, T., and Todorova, N. (2021). Night trading with futures in China: The case of aluminum
+  and copper. *Resources Policy*, 73, 102205. https://doi.org/10.1016/j.resourpol.2021.102205
+- Liu, Q., and An, Y. (2011). Information transmission in informationally linked markets:
+  Evidence from US and Chinese commodity futures markets. *Journal of International Money and
+  Finance*, 30(5), 778–795. https://doi.org/10.1016/j.jimonfin.2011.05.006
+- † Ma, G., Bouri, E., Xu, Y., and Zhou, Z. I. (2025). The "night effect" of intraday trading:
+  Evidence from Chinese gold and silver futures markets. *Global Finance Journal*, 64, 101084.
+  https://doi.org/10.1016/j.gfj.2025.101084
 - Roth, J., Sant'Anna, P. H. C., Bilinski, A., and Poe, J. (2023). What's trending in
   difference-in-differences? A synthesis of the recent econometrics literature. *Journal of
-  Econometrics*, 235(2), 2218–2244.
-- To add in Phase 1: studies of night-trading introductions on the Chinese commodity exchanges.
+  Econometrics*, 235(2), 2218–2244. https://doi.org/10.1016/j.jeconom.2023.03.008
+- Stoll, H. R., and Whaley, R. E. (1990). Stock market structure and volatility. *Review of
+  Financial Studies*, 3(1), 37–71. https://doi.org/10.1093/rfs/3.1.37
+- † Xia, W., Xiong, T., and Li, M. (2024). Can night trading reduce price volatility? Evidence
+  from China's corn and corn starch futures markets. *Journal of Futures Markets*, 44(4),
+  585–604. https://doi.org/10.1002/fut.22483
+- † Yao, X., Hui, X., and Kang, K. (2021). Can night trading sessions improve forecasting
+  performance of gold futures' volatility in China? *Journal of Forecasting*, 40(5), 849–860.
+  https://doi.org/10.1002/for.2748
+- Still to check before `HYPOTHESES.md` is committed: the Chinese-language literature on CNKI
+  (夜盘, 夜盘交易, 夜间交易, 连续交易).
