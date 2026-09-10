@@ -1,3 +1,9 @@
 [sqlfluff]
 dialect = duckdb
 max_line_length = 100
+# AM04: DuckDB's SELECT * EXCLUDE / REPLACE is used deliberately to carry columns through layers.
+# ST06: keeping output columns in reading order matters more than wildcard-first ordering.
+exclude_rules = AM04, ST06
+
+[sqlfluff:rules:capitalisation.literals]
+capitalisation_policy = upper

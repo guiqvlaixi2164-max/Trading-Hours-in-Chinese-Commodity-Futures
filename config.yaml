@@ -26,3 +26,10 @@ closure_study:
 atlas:
   first_year: 2014             # first full calendar year with broad night coverage
 annualisation_days: 252
+reconcile:                     # tests/reconcile/ against data/reference/ (Phase 3)
+  ret_abs_tol: 1.0e-12
+  rv_rel_tol: 1.0e-10
+# Tables written to outputs/tables/<name>.csv by `pipeline.py export` (tracked, aggregated only).
+# Not a DuckDB variable.
+csv_exports:
+  cleaning_departures: core.cleaning_departures

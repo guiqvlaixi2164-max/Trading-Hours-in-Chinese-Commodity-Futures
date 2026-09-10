@@ -12,7 +12,7 @@ reference AS (
     SELECT
         slug,
         n_raw
-    FROM read_csv('data/reference/cleaning_report.csv', header = true)
+    FROM read_csv('data/reference/cleaning_report.csv', header = TRUE)
 )
 
 SELECT

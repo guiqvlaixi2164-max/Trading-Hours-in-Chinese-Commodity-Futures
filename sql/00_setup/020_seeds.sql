@@ -15,7 +15,7 @@ SELECT
     linkage_reason
 FROM read_csv(
     'seeds/contracts.csv',
-    header = true,
+    header = TRUE,
     columns = {
         'slug': 'VARCHAR',
         'code': 'VARCHAR',
@@ -41,13 +41,34 @@ SELECT
     block_order
 FROM read_csv(
     'seeds/session_blocks.csv',
-    header = true,
+    header = TRUE,
     columns = {
         'block': 'VARCHAR',
         'clock_start': 'VARCHAR',
         'clock_end': 'VARCHAR',
         'last_stamp': 'VARCHAR',
         'block_order': 'INTEGER'
+    }
+);
+
+-- The companion pipeline's fixed night window per contract, used only by the compatibility rule
+-- set (Phase 3). Day-only contracts have no night window.
+CREATE OR REPLACE TABLE seed.compat_night_windows AS
+SELECT
+    slug,
+    session_template,
+    night_start::TIME AS night_start,
+    night_last_stamp::TIME AS night_last_stamp,
+    hour(night_start::TIME) * 60 + minute(night_start::TIME) AS night_start_min,
+    hour(night_last_stamp::TIME) * 60 + minute(night_last_stamp::TIME) AS night_last_stamp_min
+FROM read_csv(
+    'seeds/compat_night_windows.csv',
+    header = TRUE,
+    columns = {
+        'slug': 'VARCHAR',
+        'session_template': 'VARCHAR',
+        'night_start': 'VARCHAR',
+        'night_last_stamp': 'VARCHAR'
     }
 );
 
@@ -63,7 +84,7 @@ SELECT
     description
 FROM read_csv(
     'seeds/us_scheduled_events.csv',
-    header = true,
+    header = TRUE,
     columns = {
         'event': 'VARCHAR',
         'et_time': 'VARCHAR',

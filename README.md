@@ -4,7 +4,8 @@ A DuckDB + Power BI study of when volatility, volume and price discovery happen 
 commodity futures, what changes when trading hours are extended, and what accumulates while the
 market is shut.
 
-**Status:** Phase 0 (repository skeleton). The plan is in [`PROJECT_PLAN.md`](PROJECT_PLAN.md);
+**Status:** Phase 3 done: the SQL cleaning pipeline reproduces the reference pipeline exactly in
+compatibility mode. The plan is in [`PROJECT_PLAN.md`](PROJECT_PLAN.md);
 decisions are logged in [`docs/DECISIONS.md`](docs/DECISIONS.md). This README becomes the research
 brief in Phase 11.
 

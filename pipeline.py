@@ -2,8 +2,9 @@
 
     python pipeline.py verify-raw           # SHA-256 of data/raw/*.csv against MANIFEST.sha256
     python pipeline.py build [--from 30_core] [--only 50_night] [--compat]
-    python pipeline.py test                 # every tests/sql/*.sql must return zero rows
-    python pipeline.py export               # mart.* -> marts/*.parquet
+    python pipeline.py test                 # every tests/sql/*.sql must return zero rows, and
+                                            #   tests/reconcile/*.sql if data/reference/ exists
+    python pipeline.py export               # mart.* -> marts/*.parquet; csv_exports -> outputs/tables/
     python pipeline.py all                  # verify-raw, build, test, export
 """
 import argparse
@@ -23,6 +24,8 @@ RAW = Path("data/raw")
 WAREHOUSE = Path("data/warehouse.duckdb")
 TMP = Path("data/tmp")
 MARTS = Path("marts")
+OUTPUTS = Path("outputs/tables")
+REFERENCE = Path("data/reference")
 LOG = Path("logs/build.log")
 CREATED = re.compile(
     r"CREATE\s+(?:OR\s+REPLACE\s+)?(?:TEMP(?:ORARY)?\s+)?(?:TABLE|VIEW)\s+"
@@ -86,9 +89,14 @@ def config_variables(cfg):
     return out
 
 
-def connect(compat=False):
-    cfg = yaml.safe_load(Path("config.yaml").read_text(encoding="utf-8"))
+def load_config():
+    return yaml.safe_load(Path("config.yaml").read_text(encoding="utf-8"))
+
+
+def connect(cfg, compat=False):
+    cfg = dict(cfg)
     settings = cfg.pop("duckdb")
+    cfg.pop("csv_exports", None)
     TMP.mkdir(parents=True, exist_ok=True)
     con = duckdb.connect(str(WAREHOUSE))
     con.execute(f"SET memory_limit = {sql_literal(settings['memory_limit'])}")
@@ -137,6 +145,10 @@ def build(con, start=None, only=None):
 
 def run_tests(con):
     tests = sorted(Path("tests/sql").glob("*.sql"))
+    if REFERENCE.exists():
+        tests += sorted(Path("tests/reconcile").glob("*.sql"))
+    else:
+        log.warning("test: %s not found, skipping tests/reconcile/", REFERENCE.as_posix())
     failed = 0
     for path in tests:
         con.execute(path.read_text(encoding="utf-8"))
@@ -153,7 +165,7 @@ def run_tests(con):
         raise BuildError(f"{failed} test(s) failed")
 
 
-def export(con):
+def export(con, csv_exports):
     MARTS.mkdir(exist_ok=True)
     names = [r[0] for r in con.execute(
         "SELECT table_name FROM information_schema.tables "
@@ -163,6 +175,11 @@ def export(con):
         con.execute(f"COPY (SELECT * FROM mart.{name}) TO '{out}' (FORMAT parquet, COMPRESSION zstd)")
         log.info("export: mart.%s -> %s", name, out)
     log.info("export: %d mart table(s)", len(names))
+    for name, table in (csv_exports or {}).items():
+        out = (OUTPUTS / f"{name}.csv").as_posix()
+        # ORDER BY ALL makes the file byte-for-byte reproducible (Phase 11 check).
+        con.execute(f"COPY (SELECT * FROM {table} ORDER BY ALL) TO '{out}' (HEADER, DELIMITER ',')")
+        log.info("export: %s -> %s", table, out)
 
 
 def main():
@@ -190,13 +207,14 @@ def main():
         if args.command in ("verify-raw", "all"):
             verify_raw()
         if args.command != "verify-raw":
-            with connect(getattr(args, "compat", False)) as con:
+            cfg = load_config()
+            with connect(cfg, getattr(args, "compat", False)) as con:
                 if args.command in ("build", "all"):
                     build(con, getattr(args, "start", None), getattr(args, "only", None))
                 if args.command in ("test", "all"):
                     run_tests(con)
                 if args.command in ("export", "all"):
-                    export(con)
+                    export(con, cfg.get("csv_exports"))
     except BuildError as e:
         log.error("%s", e)
         sys.exit(1)

@@ -16,8 +16,8 @@ SELECT
 FROM
     read_csv(
         'data/raw/*.csv',
-        filename = true,
-        header = true,
+        filename = TRUE,
+        header = TRUE,
         columns = {
             'datetime': 'TIMESTAMP',
             'open': 'DOUBLE',
